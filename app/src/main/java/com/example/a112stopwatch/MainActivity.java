@@ -25,6 +25,9 @@ public class MainActivity extends AppCompatActivity {
             iterations = savedInstanceState.getInt("iterations");
             beginning = savedInstanceState.getBoolean("beginning");
             textViewAction.setText(savedInstanceState.getString("textViewAction"));
+            if (wasBeginning){
+                beginning = true;
+            }
         }
         begin();
     }
@@ -44,6 +47,16 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("iterations",iterations);
+        outState.putBoolean("beginning",beginning);
+        outState.putString("textViewAction",String.valueOf(textViewAction.getText()));
+        wasBeginning = beginning;
+        beginning = false;
+    }
+
     public void onClickStart(View view) {
         beginning = true;
         textViewAction.setText("Секундомер запущен");
@@ -59,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
         iterations = 0;
         textViewAction.setText("Секундомер сброшен");
     }
-
 
     @Override
     protected void onStart() {
@@ -89,28 +101,5 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
         wasBeginning = beginning;
         beginning = false;
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        if (wasBeginning){
-            beginning = true;
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        wasBeginning = beginning;
-        beginning = false;
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putInt("iterations",iterations);
-        outState.putBoolean("beginning",beginning);
-        outState.putString("textViewAction",textViewAction.getText().toString());
     }
 }
