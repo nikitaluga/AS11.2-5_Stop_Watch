@@ -23,11 +23,11 @@ public class MainActivity extends AppCompatActivity {
 
         if (savedInstanceState != null){
             iterations = savedInstanceState.getInt("iterations");
-            beginning = savedInstanceState.getBoolean("beginning");
-            textViewAction.setText(savedInstanceState.getString("textViewAction"));
+            wasBeginning = beginning = savedInstanceState.getBoolean("wasBeginning");
             if (wasBeginning){
                 beginning = true;
             }
+            textViewAction.setText(savedInstanceState.getString("textViewAction"));
         }
         begin();
     }
@@ -51,10 +51,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("iterations",iterations);
+        outState.putBoolean("wasBeginning",wasBeginning);
         outState.putBoolean("beginning",beginning);
         outState.putString("textViewAction",String.valueOf(textViewAction.getText()));
-        wasBeginning = beginning;
-        beginning = false;
     }
 
     public void onClickStart(View view) {
@@ -73,20 +72,20 @@ public class MainActivity extends AppCompatActivity {
         textViewAction.setText("Секундомер сброшен");
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if (wasBeginning){
-            beginning = true;
-        }
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        wasBeginning = beginning;
-        beginning = false;
-    }
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        if (wasBeginning){
+//            beginning = true;
+//        }
+//    }
+//
+//    @Override
+//    protected void onStop() {
+//        super.onStop();
+//        wasBeginning = beginning;
+//        beginning = false;
+//    }
 
     @Override
     protected void onResume() {
